@@ -25,11 +25,14 @@ TRAIN_DIR = "seg_train/seg_train"
 TEST_DIR  = "seg_test/seg_test"
  
 BATCH  = 32 # Ho scelto 32 immagini alla volta per testare ma eventualmente si può aumentare
-NUM_EPOCH  = 10
+NUM_EPOCH  = float('inf')  # Nessun limite massimo, l'early stopping controlla l'addestramento
 LR         = 1e-4        
 VAL_SPLIT   = 0.2         # 20% del training set per la val
 NUM_CLASS = 6             
 DEVICE      = torch.device("cpu")
+# Early Stopping
+PATIENCE    = 3            # Numero di epoche senza miglioramento prima di interrompere
+MIN_DELTA   = 1e-4         # Miglioramento minimo considerato significativo
  
 CLASS_NAMES = ["buildings", "forest", "glacier", "mountain", "sea", "street"]
  
@@ -154,6 +157,7 @@ def get_predictions(model, loader, device):
 # Traing Loop 
 history = {"train_loss": [], "val_loss": [], "train_acc": [], "val_acc": []}
 best_val_acc = 0.0
+patience_counter = 0  # Contatore per early stopping
  
 
 print("Training loop\n")
@@ -161,7 +165,8 @@ print("Training loop\n")
  
 
  
-for epoch in range(1, NUM_EPOCH + 1):
+epoch = 1
+while True:
     train_loss, train_acc = train_one_epoch(model, train_loader, criterion, optimizer, DEVICE)
     val_loss,   val_acc   = evaluate(model, val_loader, criterion, DEVICE)
     scheduler.step()
@@ -171,15 +176,27 @@ for epoch in range(1, NUM_EPOCH + 1):
     history["train_acc"].append(train_acc)
     history["val_acc"].append(val_acc)
  
-    # Salva il miglior modello
-    if val_acc > best_val_acc:
+    # Salva il miglior modello e resetta il counter se c'è miglioramento
+    if val_acc > best_val_acc + MIN_DELTA:
         best_val_acc = val_acc
         torch.save(model.state_dict(), "best_model.pth")
+        patience_counter = 0
+    else:
+        patience_counter += 1
  
-    print(f"Epoch [{epoch:2d}/{NUM_EPOCH}] "
+    print(f"Epoch [{epoch:2d}] "
           f"Train Loss: {train_loss:.4f} | Train Acc: {train_acc:.4f} | "
           f"Val Loss: {val_loss:.4f} | Val Acc: {val_acc:.4f}"
-          + (" ← best" if val_acc == best_val_acc else ""))
+          + (" ← best" if val_acc == best_val_acc else "")
+          + (f" [patience: {patience_counter}/{PATIENCE}]" if patience_counter > 0 else ""))
+    
+    # Early Stopping
+    if patience_counter >= PATIENCE:
+        print(f"\nEarly stopping attivato dopo {epoch} epoche.")
+        print(f"Nessun miglioramento per {PATIENCE} epoche consecutive.")
+        break
+    
+    epoch += 1
  
 # Valutation utilizzando il miglior modello dopo il finetuning e stampa dei risultati
 print("VALUTAZIONE SUL TEST SET (miglior modello)")
