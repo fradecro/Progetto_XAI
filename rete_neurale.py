@@ -31,7 +31,7 @@ VAL_SPLIT   = 0.2         # 20% del training set per la val
 NUM_CLASS = 6             
 DEVICE      = torch.device("cpu")
 # Early Stopping
-PATIENCE    = 3            # Numero di epoche senza miglioramento prima di interrompere
+PATIENCE    = 10            # Numero di epoche senza miglioramento prima di interrompere
 MIN_DELTA   = 1e-4         # Miglioramento minimo considerato significativo
  
 CLASS_NAMES = ["buildings", "forest", "glacier", "mountain", "sea", "street"]
@@ -216,10 +216,39 @@ print(f"Recall   : {recall:.4f}  (macro)")
 print(f"F1-Score : {f1:.4f}  (macro)")
 print(f"\nClassification Report:\n")
 print(classification_report(y_true, y_pred, target_names=CLASS_NAMES))
+results_txt = []
+results_txt.append("=" * 50)
+results_txt.append("RISULTATI VALUTAZIONE SUL TEST SET")
+results_txt.append("=" * 50)
+results_txt.append(f"Epoche totali       : {epoch}")
+results_txt.append(f"Best Val Accuracy   : {best_val_acc:.4f}")
+results_txt.append("-" * 50)
+results_txt.append(f"Accuracy            : {acc:.4f}")
+results_txt.append(f"Precision (macro)   : {precision:.4f}")
+results_txt.append(f"Recall    (macro)   : {recall:.4f}")
+results_txt.append(f"F1-Score  (macro)   : {f1:.4f}")
+results_txt.append("-" * 50)
+results_txt.append("CLASSIFICATION REPORT")
+results_txt.append("-" * 50)
+results_txt.append(classification_report(y_true, y_pred, target_names=CLASS_NAMES))
+results_txt.append("-" * 50)
+results_txt.append("STORICO TRAINING")
+results_txt.append("-" * 50)
+results_txt.append(f"{'Epoca':<8} {'Train Loss':<14} {'Train Acc':<13} {'Val Loss':<12} {'Val Acc'}")
+for i, (tl, ta, vl, va) in enumerate(zip(
+    history["train_loss"], history["train_acc"],
+    history["val_loss"],   history["val_acc"]
+), start=1):
+    results_txt.append(f"{i:<8} {tl:<14.4f} {ta:<13.4f} {vl:<12.4f} {va:.4f}")
+
+with open("results.txt", "w") as f:
+    f.write("\n".join(results_txt))
+
+print("\nRisultati salvati in results.txt")
  
 # Creazione grafici 
 fig, axes = plt.subplots(1, 3, figsize=(20, 5))
-epochs_range = range(1, NUM_EPOCH + 1)
+epochs_range = range(1, len(history["train_loss"]) + 1)
  
 # — Loss curve
 axes[0].plot(epochs_range, history["train_loss"], label="Train Loss", marker="o")
@@ -247,4 +276,5 @@ plt.tight_layout()
 plt.savefig("results.png", dpi=150, bbox_inches="tight")
 plt.show()
 print("\nGrafici salvati in results.png")
+
  
