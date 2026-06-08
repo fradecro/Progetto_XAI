@@ -1,0 +1,252 @@
+================================================================================
+  ANALISI INTEGRATED GRADIENTS — LOG COMPLETO
+  Data e ora: 2026-06-08 23:02:06
+================================================================================
+
+Caricamento del modello
+✓ Modello caricato con successo!
+
+Caricamento del dataset di test...
+✓ Dataset caricato: 3000 immagini
+
+Immagini selezionate per analisi: 12
+   [1/12] Immagine processata - Vera: buildings, Predetta: buildings (100.00%)
+   [2/12] Immagine processata - Vera: buildings, Predetta: buildings (99.99%)
+   [3/12] Immagine processata - Vera: forest, Predetta: forest (100.00%)
+   [4/12] Immagine processata - Vera: forest, Predetta: forest (100.00%)
+   [5/12] Immagine processata - Vera: glacier, Predetta: glacier (100.00%)
+   [6/12] Immagine processata - Vera: glacier, Predetta: glacier (100.00%)
+   [7/12] Immagine processata - Vera: mountain, Predetta: mountain (97.52%)
+   [8/12] Immagine processata - Vera: mountain, Predetta: mountain (99.98%)
+   [9/12] Immagine processata - Vera: sea, Predetta: sea (99.98%)
+   [10/12] Immagine processata - Vera: sea, Predetta: sea (97.82%)
+   [11/12] Immagine processata - Vera: street, Predetta: street (99.87%)
+   [12/12] Immagine processata - Vera: street, Predetta: street (52.36%)
+
+✓ Integrated Gradients calcolati per tutte le immagini
+
+Generazione visualizzazioni
+
+ Salvato: Integrated_Gradients/integrated_gradients_00_buildings.png
+ Salvato: Integrated_Gradients/integrated_gradients_01_buildings.png
+ Salvato: Integrated_Gradients/integrated_gradients_02_forest.png
+ Salvato: Integrated_Gradients/integrated_gradients_03_forest.png
+ Salvato: Integrated_Gradients/integrated_gradients_04_glacier.png
+ Salvato: Integrated_Gradients/integrated_gradients_05_glacier.png
+ Salvato: Integrated_Gradients/integrated_gradients_06_mountain.png
+ Salvato: Integrated_Gradients/integrated_gradients_07_mountain.png
+ Salvato: Integrated_Gradients/integrated_gradients_08_sea.png
+ Salvato: Integrated_Gradients/integrated_gradients_09_sea.png
+ Salvato: Integrated_Gradients/integrated_gradients_10_street.png
+ Salvato: Integrated_Gradients/integrated_gradients_11_street.png
+
+
+Generazione mappe di importanza media per classe...
+Salvato: integrated_gradients_per_classe.png
+
+Analisi Statistiche:
+================================================================================
+
+Statistiche per ogni immagine analizzata:
+--------------------------------------------------------------------------------
+
+[1] buildings → buildings
+    Confidenza predizione: 100.00%
+    Max importanza pixel: 0.144220
+    Media importanza pixel: 0.011976
+    Min importanza pixel: 0.000091
+    Top-3 pixel più importanti:
+      1. Posizione ( 95, 144): 0.144220
+      2. Posizione ( 55,  60): 0.132383
+      3. Posizione ( 50,  64): 0.121908
+
+[2] buildings → buildings
+    Confidenza predizione: 99.99%
+    Max importanza pixel: 0.135393
+    Media importanza pixel: 0.009079
+    Min importanza pixel: 0.000052
+    Top-3 pixel più importanti:
+      1. Posizione ( 42,   9): 0.135393
+      2. Posizione ( 64, 117): 0.122017
+      3. Posizione ( 30,  72): 0.116760
+
+[3] forest → forest
+    Confidenza predizione: 100.00%
+    Max importanza pixel: 0.193825
+    Media importanza pixel: 0.009026
+    Min importanza pixel: 0.000014
+    Top-3 pixel più importanti:
+      1. Posizione (  6,  17): 0.193825
+      2. Posizione ( 13, 130): 0.165618
+      3. Posizione (  6, 125): 0.160783
+
+[4] forest → forest
+    Confidenza predizione: 100.00%
+    Max importanza pixel: 0.121031
+    Media importanza pixel: 0.009022
+    Min importanza pixel: 0.000035
+    Top-3 pixel più importanti:
+      1. Posizione (  3,  90): 0.121031
+      2. Posizione (115, 147): 0.110952
+      3. Posizione ( 11,  67): 0.109539
+
+[5] glacier → glacier
+    Confidenza predizione: 100.00%
+    Max importanza pixel: 0.157207
+    Media importanza pixel: 0.012803
+    Min importanza pixel: 0.000084
+    Top-3 pixel più importanti:
+      1. Posizione ( 31, 127): 0.157207
+      2. Posizione ( 91,  22): 0.142592
+      3. Posizione ( 76,   9): 0.136002
+
+[6] glacier → glacier
+    Confidenza predizione: 100.00%
+    Max importanza pixel: 0.120141
+    Media importanza pixel: 0.015361
+    Min importanza pixel: 0.000063
+    Top-3 pixel più importanti:
+      1. Posizione ( 79,  40): 0.120141
+      2. Posizione ( 45,  88): 0.118954
+      3. Posizione ( 79,  79): 0.115089
+
+[7] mountain → mountain
+    Confidenza predizione: 97.52%
+    Max importanza pixel: 0.171809
+    Media importanza pixel: 0.009446
+    Min importanza pixel: 0.000027
+    Top-3 pixel più importanti:
+      1. Posizione (  7,  72): 0.171809
+      2. Posizione (143,  69): 0.150822
+      3. Posizione (  6,  73): 0.133826
+
+[8] mountain → mountain
+    Confidenza predizione: 99.98%
+    Max importanza pixel: 0.333267
+    Media importanza pixel: 0.012530
+    Min importanza pixel: 0.000040
+    Top-3 pixel più importanti:
+      1. Posizione ( 63,  34): 0.333267
+      2. Posizione ( 58,  37): 0.259742
+      3. Posizione ( 92,  15): 0.249902
+
+[9] sea → sea
+    Confidenza predizione: 99.98%
+    Max importanza pixel: 0.250549
+    Media importanza pixel: 0.014822
+    Min importanza pixel: 0.000115
+    Top-3 pixel più importanti:
+      1. Posizione ( 63,  68): 0.250549
+      2. Posizione ( 67, 136): 0.226511
+      3. Posizione ( 83,  75): 0.201613
+
+[10] sea → sea
+    Confidenza predizione: 97.82%
+    Max importanza pixel: 0.101804
+    Media importanza pixel: 0.009186
+    Min importanza pixel: 0.000036
+    Top-3 pixel più importanti:
+      1. Posizione (112, 101): 0.101804
+      2. Posizione ( 93, 147): 0.101210
+      3. Posizione (111, 102): 0.091447
+
+[11] street → street
+    Confidenza predizione: 99.87%
+    Max importanza pixel: 0.095004
+    Media importanza pixel: 0.005830
+    Min importanza pixel: 0.000024
+    Top-3 pixel più importanti:
+      1. Posizione (146,  30): 0.095004
+      2. Posizione (143,  46): 0.086089
+      3. Posizione (143,  47): 0.082642
+
+[12] street → street
+    Confidenza predizione: 52.36%
+    Max importanza pixel: 0.074435
+    Media importanza pixel: 0.005954
+    Min importanza pixel: 0.000011
+    Top-3 pixel più importanti:
+      1. Posizione (142,  98): 0.074435
+      2. Posizione (142,  99): 0.064138
+      3. Posizione (128,  73): 0.058872
+
+================================================================================
+
+Statistiche per classe:
+--------------------------------------------------------------------------------
+
+buildings (2 immagini):
+  Media importanza pixel: 0.010528
+  Std dev importanza pixel: 0.004844
+  Max importanza pixel (media): 0.078055
+  Min importanza pixel (media): 0.000579
+  Top-5 regioni importanti:
+    1. Posizione ( 55,  60): 0.078055
+    2. Posizione ( 95, 144): 0.074953
+    3. Posizione ( 42,   9): 0.071291
+    4. Posizione ( 50,  64): 0.066655
+    5. Posizione (119,  76): 0.066223
+
+forest (2 immagini):
+  Media importanza pixel: 0.009024
+  Std dev importanza pixel: 0.004781
+  Max importanza pixel (media): 0.101192
+  Min importanza pixel (media): 0.000190
+  Top-5 regioni importanti:
+    1. Posizione (  6,  17): 0.101192
+    2. Posizione (102,  90): 0.092807
+    3. Posizione (  7,  74): 0.089335
+    4. Posizione (  2, 141): 0.089326
+    5. Posizione (  8,  15): 0.087115
+
+glacier (2 immagini):
+  Media importanza pixel: 0.014082
+  Std dev importanza pixel: 0.005939
+  Max importanza pixel (media): 0.092874
+  Min importanza pixel (media): 0.000393
+  Top-5 regioni importanti:
+    1. Posizione ( 31, 127): 0.092874
+    2. Posizione ( 93,  58): 0.089253
+    3. Posizione ( 17,  74): 0.075135
+    4. Posizione ( 90,  17): 0.073163
+    5. Posizione ( 91,  22): 0.073019
+
+mountain (2 immagini):
+  Media importanza pixel: 0.010988
+  Std dev importanza pixel: 0.005570
+  Max importanza pixel (media): 0.169146
+  Min importanza pixel (media): 0.000566
+  Top-5 regioni importanti:
+    1. Posizione ( 63,  34): 0.169146
+    2. Posizione ( 58,  37): 0.134193
+    3. Posizione ( 92,  15): 0.128637
+    4. Posizione ( 63,  33): 0.122670
+    5. Posizione ( 92,  13): 0.109136
+
+sea (2 immagini):
+  Media importanza pixel: 0.012004
+  Std dev importanza pixel: 0.005888
+  Max importanza pixel (media): 0.128142
+  Min importanza pixel (media): 0.000493
+  Top-5 regioni importanti:
+    1. Posizione ( 63,  68): 0.128142
+    2. Posizione ( 67, 136): 0.116055
+    3. Posizione ( 83,  75): 0.105194
+    4. Posizione ( 85,  66): 0.098199
+    5. Posizione ( 88, 105): 0.097316
+
+street (2 immagini):
+  Media importanza pixel: 0.005892
+  Std dev importanza pixel: 0.002973
+  Max importanza pixel (media): 0.050526
+  Min importanza pixel (media): 0.000165
+  Top-5 regioni importanti:
+    1. Posizione (143,  46): 0.050526
+    2. Posizione (146,  30): 0.050001
+    3. Posizione (143,  47): 0.049156
+    4. Posizione (143,  43): 0.046784
+    5. Posizione (138, 147): 0.044294
+
+================================================================================
+  FINE LOG
+================================================================================

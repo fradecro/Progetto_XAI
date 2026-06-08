@@ -7,7 +7,46 @@ from torch.utils.data import DataLoader
 from torchvision import datasets, transforms, models
 from PIL import Image
 import warnings
+import sys
+from datetime import datetime
 warnings.filterwarnings('ignore')
+
+
+OUTPUT_DIR = "Integrated_Gradients"
+os.makedirs(OUTPUT_DIR, exist_ok=True)
+
+class Logger:
+    def __init__(self, filepath):
+        self.terminal = sys.stdout
+        self.log      = open(filepath, "w", encoding="utf-8")
+        self._write_header()
+
+    def _write_header(self):
+        now = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+        self.log.write("=" * 80 + "\n")
+        self.log.write(f"  ANALISI INTEGRATED GRADIENTS — LOG COMPLETO\n")
+        self.log.write(f"  Data e ora: {now}\n")
+        self.log.write("=" * 80 + "\n\n")
+
+    def write(self, message):
+        self.terminal.write(message)
+        self.log.write(message)
+
+    def flush(self):
+        self.terminal.flush()
+        self.log.flush()
+
+    def close(self):
+        self.log.write("\n" + "=" * 80 + "\n")
+        self.log.write("  FINE LOG\n")
+        self.log.write("=" * 80 + "\n")
+        self.log.close()
+
+log_path   = os.path.join(OUTPUT_DIR, "integrated_gradients_log.txt")
+logger     = Logger(log_path)
+sys.stdout = logger
+
+
 
 
 TEST_DIR = "seg_test/seg_test"
@@ -212,7 +251,7 @@ for plot_idx, (dict_idx, data) in enumerate(gradients_dict.items()):
     plt.colorbar(im4, ax=axes[1, 2])
     
     plt.tight_layout()
-    filename = f'integrated_gradients_{plot_idx:02d}_{CLASS_NAMES[data["pred_class"]]}.png'
+    filename = os.path.join(OUTPUT_DIR, f'integrated_gradients_{plot_idx:02d}_{CLASS_NAMES[data["pred_class"]]}.png')
     plt.savefig(filename, dpi=150, bbox_inches='tight')
     plt.close()
     print(f" Salvato: {filename}")
@@ -298,3 +337,6 @@ for class_idx in range(NUM_CLASS):
             row, col = np.unravel_index(idx, mean_map.shape)
             print(f"    {rank}. Posizione ({row:3d}, {col:3d}): {mean_map[row, col]:.6f}")
 
+logger.close()
+sys.stdout = logger.terminal
+print(f"\nLog salvato in: {log_path}")

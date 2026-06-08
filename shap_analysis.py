@@ -7,9 +7,13 @@ from torch.utils.data import DataLoader
 from torchvision import datasets, transforms, models
 import shap
 import warnings
+import sys
+from datetime import datetime
 warnings.filterwarnings('ignore')
 
 # Configurazione e caricamento del modello (pesi di best model)
+OUTPUT_DIR = "shap_risultati"
+os.makedirs(OUTPUT_DIR, exist_ok=True)
 TEST_DIR = "seg_test/seg_test"
 DEVICE = torch.device("cpu")
 NUM_CLASS = 6
@@ -108,8 +112,22 @@ def denormalize(tensor):
 #Per visualizzazione mappa dei pixel significativi 
 def get_shap_2d(class_idx, img_idx):
     
-    shap_chw = shap_values_list[class_idx][img_idx]   
-    return shap_chw.mean(axis=0)                       
+    if isinstance(shap_values_list, list) and len(shap_values_list) == NUM_CLASS:
+        # Struttura attesa: lista[class_idx] → (N, C, H, W)
+        shap_chw = shap_values_list[class_idx][img_idx]   # (C, H, W)
+    else:
+        # Fallback: array unico, ignora class_idx
+        arr = np.array(shap_values_list)
+        if arr.ndim == 4:
+            # (N, C, H, W)
+            shap_chw = arr[img_idx]                        # (C, H, W)
+        elif arr.ndim == 5:
+            # (N, C, H, W, num_classes)
+            shap_chw = arr[img_idx, :, :, :, class_idx]   # (C, H, W)
+        else:
+            raise ValueError(f"Struttura shap_values inattesa: {arr.shape}")
+
+    return shap_chw.mean(axis=0)                           # (H, W)                       
 #Normalizzazione mappa
 def normalize_map(m):
     
@@ -193,7 +211,7 @@ for img_idx in range(len(test_images)):
         ax.axis('off')
         plt.colorbar(im, ax=ax, label='SHAP', fraction=0.046, pad=0.04)
 
-    fname = f'shap_analisi_immagine_{img_idx:02d}_{CLASS_NAMES[pred_class]}.png'
+    fname = os.path.join(OUTPUT_DIR, f'shap_analisi_immagine_{img_idx:02d}_{CLASS_NAMES[pred_class]}.png')
     plt.savefig(fname, dpi=150, bbox_inches='tight')
     plt.close()
     print(f" Salvato: {fname}")
@@ -258,6 +276,42 @@ print("\n" + "=" * 80)
 print("STATISTICHE SHAP PER CLASSE")
 print("=" * 80)
 
+
+#Log .txt
+OUTPUT_DIR = "shap_risultati"
+os.makedirs(OUTPUT_DIR, exist_ok=True)
+
+class Logger:
+    def __init__(self, filepath):
+        self.terminal = sys.stdout
+        self.log      = open(filepath, "w", encoding="utf-8")
+        self._write_header()
+
+    def _write_header(self):
+        now = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+        self.log.write("=" * 80 + "\n")
+        self.log.write(f"  ANALISI SHAP — LOG COMPLETO\n")
+        self.log.write(f"  Data e ora: {now}\n")
+        self.log.write("=" * 80 + "\n\n")
+
+    def write(self, message):
+        self.terminal.write(message)
+        self.log.write(message)
+
+    def flush(self):
+        self.terminal.flush()
+        self.log.flush()
+
+    def close(self):
+        self.log.write("\n" + "=" * 80 + "\n")
+        self.log.write("  FINE LOG\n")
+        self.log.write("=" * 80 + "\n")
+        self.log.close()
+
+log_path   = os.path.join(OUTPUT_DIR, "shap_log.txt")
+logger     = Logger(log_path)
+sys.stdout = logger
+
 for class_idx in range(NUM_CLASS):
     arr = np.abs(shap_values_list[class_idx])   # (N, C, H, W)
     mean_map = arr.mean(axis=(0, 1))             # (H, W)
@@ -266,3 +320,7 @@ for class_idx in range(NUM_CLASS):
     print(f"  Max   |SHAP|: {mean_map.max():.6f}")
     print(f"  Std   |SHAP|: {mean_map.std():.6f}")
 
+
+
+logger.close()
+sys.stdout = logger.terminal

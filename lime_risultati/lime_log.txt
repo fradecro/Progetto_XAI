@@ -1,0 +1,205 @@
+================================================================================
+  ANALISI LIME — LOG COMPLETO
+  Data e ora: 2026-06-08 22:57:44
+================================================================================
+
+Caricamento del modello
+Modello caricato con successo!
+
+Caricamento dataset di test
+Dataset caricato: 3000 immagini
+
+Selezione immagini bilanciate
+Selezionate 12 immagini
+
+Calcolo LIME
+  [ 1/12] Vera: buildings  | Predetta: buildings  (100.00%)
+  [ 2/12] Vera: buildings  | Predetta: buildings  (99.99%)
+  [ 3/12] Vera: forest     | Predetta: forest     (100.00%)
+  [ 4/12] Vera: forest     | Predetta: forest     (100.00%)
+  [ 5/12] Vera: glacier    | Predetta: glacier    (100.00%)
+  [ 6/12] Vera: glacier    | Predetta: glacier    (100.00%)
+  [ 7/12] Vera: mountain   | Predetta: mountain   (97.52%)
+  [ 8/12] Vera: mountain   | Predetta: mountain   (99.98%)
+  [ 9/12] Vera: sea        | Predetta: sea        (99.98%)
+  [10/12] Vera: sea        | Predetta: sea        (97.82%)
+  [11/12] Vera: street     | Predetta: street     (99.87%)
+  [12/12] Vera: street     | Predetta: street     (52.36%)
+Generazione analisi per immagine
+  ✓ Salvato: lime_risultati/lime_analisi_00_buildings.png
+  ✓ Salvato: lime_risultati/lime_analisi_01_buildings.png
+  ✓ Salvato: lime_risultati/lime_analisi_02_forest.png
+  ✓ Salvato: lime_risultati/lime_analisi_03_forest.png
+  ✓ Salvato: lime_risultati/lime_analisi_04_glacier.png
+  ✓ Salvato: lime_risultati/lime_analisi_05_glacier.png
+  ✓ Salvato: lime_risultati/lime_analisi_06_mountain.png
+  ✓ Salvato: lime_risultati/lime_analisi_07_mountain.png
+  ✓ Salvato: lime_risultati/lime_analisi_08_sea.png
+  ✓ Salvato: lime_risultati/lime_analisi_09_sea.png
+  ✓ Salvato: lime_risultati/lime_analisi_10_street.png
+  ✓ Salvato: lime_risultati/lime_analisi_11_street.png
+
+Generazione mappa media pesi LIME per classe
+Salvato: lime_media_per_classe.png
+
+================================================================================
+STATISTICHE LIME PER IMMAGINE
+================================================================================
+
+[Img 00] ✓ buildings → buildings (conf: 100.00%)
+  N° superpixel:      14
+  Peso max  (pos):    0.164607
+  Peso min  (neg):    -0.046626
+  Peso medio |w|:     0.048203
+  Top-3 superpixel:
+    1. Segmento   6: peso=+0.164607 (favorisce)
+    2. Segmento   5: peso=+0.108900 (favorisce)
+    3. Segmento  12: peso=+0.068879 (favorisce)
+
+[Img 01] ✓ buildings → buildings (conf: 99.99%)
+  N° superpixel:      17
+  Peso max  (pos):    0.144809
+  Peso min  (neg):    -0.051029
+  Peso medio |w|:     0.040237
+  Top-3 superpixel:
+    1. Segmento   8: peso=+0.144809 (favorisce)
+    2. Segmento   7: peso=+0.144019 (favorisce)
+    3. Segmento  10: peso=+0.063706 (favorisce)
+
+[Img 02] ✓ forest → forest (conf: 100.00%)
+  N° superpixel:      16
+  Peso max  (pos):    0.284790
+  Peso min  (neg):    -0.069872
+  Peso medio |w|:     0.062254
+  Top-3 superpixel:
+    1. Segmento   2: peso=+0.284790 (favorisce)
+    2. Segmento   0: peso=+0.173230 (favorisce)
+    3. Segmento   3: peso=+0.159456 (favorisce)
+
+[Img 03] ✓ forest → forest (conf: 100.00%)
+  N° superpixel:      19
+  Peso max  (pos):    0.057217
+  Peso min  (neg):    -0.014798
+  Peso medio |w|:     0.015591
+  Top-3 superpixel:
+    1. Segmento   1: peso=+0.057217 (favorisce)
+    2. Segmento   4: peso=+0.053563 (favorisce)
+    3. Segmento   7: peso=+0.039341 (favorisce)
+
+[Img 04] ✓ glacier → glacier (conf: 100.00%)
+  N° superpixel:      18
+  Peso max  (pos):    0.077789
+  Peso min  (neg):    -0.012747
+  Peso medio |w|:     0.031406
+  Top-3 superpixel:
+    1. Segmento  11: peso=+0.077789 (favorisce)
+    2. Segmento  13: peso=+0.058367 (favorisce)
+    3. Segmento   3: peso=+0.056657 (favorisce)
+
+[Img 05] ✓ glacier → glacier (conf: 100.00%)
+  N° superpixel:      20
+  Peso max  (pos):    0.067106
+  Peso min  (neg):    -0.021425
+  Peso medio |w|:     0.030993
+  Top-3 superpixel:
+    1. Segmento   0: peso=+0.067106 (favorisce)
+    2. Segmento  13: peso=+0.062344 (favorisce)
+    3. Segmento  16: peso=+0.058224 (favorisce)
+
+[Img 06] ✓ mountain → mountain (conf: 97.52%)
+  N° superpixel:      13
+  Peso max  (pos):    0.346473
+  Peso min  (neg):    -0.129939
+  Peso medio |w|:     0.089714
+  Top-3 superpixel:
+    1. Segmento   0: peso=+0.346473 (favorisce)
+    2. Segmento   6: peso=-0.129939 (contrasta)
+    3. Segmento   2: peso=+0.113643 (favorisce)
+
+[Img 07] ✓ mountain → mountain (conf: 99.98%)
+  N° superpixel:      15
+  Peso max  (pos):    0.230819
+  Peso min  (neg):    -0.259337
+  Peso medio |w|:     0.089202
+  Top-3 superpixel:
+    1. Segmento   2: peso=-0.259337 (contrasta)
+    2. Segmento   8: peso=+0.230819 (favorisce)
+    3. Segmento   6: peso=-0.177981 (contrasta)
+
+[Img 08] ✓ sea → sea (conf: 99.98%)
+  N° superpixel:      15
+  Peso max  (pos):    0.520088
+  Peso min  (neg):    -0.074835
+  Peso medio |w|:     0.098927
+  Top-3 superpixel:
+    1. Segmento   7: peso=+0.520088 (favorisce)
+    2. Segmento   9: peso=+0.308016 (favorisce)
+    3. Segmento   5: peso=+0.117510 (favorisce)
+
+[Img 09] ✓ sea → sea (conf: 97.82%)
+  N° superpixel:      18
+  Peso max  (pos):    0.283887
+  Peso min  (neg):    -0.052468
+  Peso medio |w|:     0.074269
+  Top-3 superpixel:
+    1. Segmento  13: peso=+0.283887 (favorisce)
+    2. Segmento  15: peso=+0.161777 (favorisce)
+    3. Segmento  16: peso=+0.142587 (favorisce)
+
+[Img 10] ✓ street → street (conf: 99.87%)
+  N° superpixel:      20
+  Peso max  (pos):    0.050100
+  Peso min  (neg):    -0.007759
+  Peso medio |w|:     0.021414
+  Top-3 superpixel:
+    1. Segmento   2: peso=+0.050100 (favorisce)
+    2. Segmento   7: peso=+0.047115 (favorisce)
+    3. Segmento  18: peso=+0.040211 (favorisce)
+
+[Img 11] ✓ street → street (conf: 52.36%)
+  N° superpixel:      20
+  Peso max  (pos):    0.174490
+  Peso min  (neg):    -0.185514
+  Peso medio |w|:     0.079167
+  Top-3 superpixel:
+    1. Segmento  23: peso=-0.185514 (contrasta)
+    2. Segmento  16: peso=+0.174490 (favorisce)
+    3. Segmento   2: peso=+0.167391 (favorisce)
+
+================================================================================
+STATISTICHE LIME PER CLASSE
+================================================================================
+
+buildings:
+  Media |peso|: 0.019301
+  Max   |peso|: 0.038931
+  Std   |peso|: 0.007359
+
+forest:
+  Media |peso|: 0.013490
+  Max   |peso|: 0.035567
+  Std   |peso|: 0.007685
+
+glacier:
+  Media |peso|: 0.020933
+  Max   |peso|: 0.035061
+  Std   |peso|: 0.005574
+
+mountain:
+  Media |peso|: 0.040963
+  Max   |peso|: 0.088744
+  Std   |peso|: 0.016565
+
+sea:
+  Media |peso|: 0.041082
+  Max   |peso|: 0.089652
+  Std   |peso|: 0.018888
+
+street:
+  Media |peso|: 0.013207
+  Max   |peso|: 0.025136
+  Std   |peso|: 0.005573
+
+================================================================================
+  FINE LOG
+================================================================================
