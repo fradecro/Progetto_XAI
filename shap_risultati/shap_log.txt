@@ -1,38 +1,163 @@
 ================================================================================
   ANALISI SHAP — LOG COMPLETO
-  Data e ora: 2026-06-08 22:50:17
+  Data e ora: 2026-06-10 22:25:07
 ================================================================================
 
+Caricamento del modello
+Modello caricato con successo!
+
+Caricamento del dataset di test...
+ Dataset caricato: 3000 immagini
+
+Selezione immagini bilanciate da ogni classe per il test
+Selezionate 12 immagini di test
+Shape immagini: torch.Size([12, 3, 150, 150])
+Shape labels:   torch.Size([12])
+
+Preparazione background SHAP
+Background preparato: torch.Size([96, 3, 150, 150])
+Immagini per classe: {'buildings': 16, 'forest': 16, 'glacier': 16, 'mountain': 16, 'sea': 16, 'street': 16}
+
+Inizializzazione SHAP
+Calcolo SHAP value
+SHAP values calcolati!
+
+Generazione plot SHAP
+Salvato: shap_risultati/shap_image_plot.png
+
+================================================================================
+STATISTICHE SHAP PER IMMAGINE
+================================================================================
+
+[Img 00] ✓ buildings → buildings (conf: 100.00%)
+  |SHAP| max:  0.000047
+  |SHAP| mean: 0.000014
+  |SHAP| std:  0.000009
+    Top-1 pixel: ( 39,116) = 0.000047
+    Top-2 pixel: ( 39,117) = 0.000047
+    Top-3 pixel: ( 38,123) = 0.000047
+
+[Img 01] ✓ buildings → buildings (conf: 99.99%)
+  |SHAP| max:  0.000072
+  |SHAP| mean: 0.000015
+  |SHAP| std:  0.000012
+    Top-1 pixel: ( 85, 99) = 0.000072
+    Top-2 pixel: ( 85, 96) = 0.000072
+    Top-3 pixel: ( 86,101) = 0.000072
+
+[Img 02] ✓ forest → forest (conf: 100.00%)
+  |SHAP| max:  0.000156
+  |SHAP| mean: 0.000010
+  |SHAP| std:  0.000019
+    Top-1 pixel: (  8, 89) = 0.000156
+    Top-2 pixel: (  8, 88) = 0.000156
+    Top-3 pixel: (  9, 78) = 0.000156
+
+[Img 03] ✓ forest → forest (conf: 100.00%)
+  |SHAP| max:  0.000040
+  |SHAP| mean: 0.000013
+  |SHAP| std:  0.000006
+    Top-1 pixel: ( 67, 88) = 0.000040
+    Top-2 pixel: ( 60, 87) = 0.000040
+    Top-3 pixel: ( 60, 86) = 0.000040
+
+[Img 04] ✓ glacier → glacier (conf: 100.00%)
+  |SHAP| max:  0.000074
+  |SHAP| mean: 0.000014
+  |SHAP| std:  0.000011
+    Top-1 pixel: ( 86, 69) = 0.000074
+    Top-2 pixel: ( 86, 70) = 0.000074
+    Top-3 pixel: ( 86, 71) = 0.000074
+
+[Img 05] ✓ glacier → glacier (conf: 100.00%)
+  |SHAP| max:  0.000049
+  |SHAP| mean: 0.000011
+  |SHAP| std:  0.000008
+    Top-1 pixel: ( 22,  0) = 0.000049
+    Top-2 pixel: ( 22,  1) = 0.000049
+    Top-3 pixel: ( 22,  6) = 0.000049
+
+[Img 06] ✓ mountain → mountain (conf: 97.52%)
+  |SHAP| max:  0.000020
+  |SHAP| mean: 0.000004
+  |SHAP| std:  0.000002
+    Top-1 pixel: (  5,148) = 0.000020
+    Top-2 pixel: (  5,149) = 0.000020
+    Top-3 pixel: (  6,141) = 0.000020
+
+[Img 07] ✓ mountain → mountain (conf: 99.98%)
+  |SHAP| max:  0.000167
+  |SHAP| mean: 0.000004
+  |SHAP| std:  0.000017
+    Top-1 pixel: ( 19,117) = 0.000167
+    Top-2 pixel: ( 19,116) = 0.000167
+    Top-3 pixel: ( 20,116) = 0.000167
+
+[Img 08] ✓ sea → sea (conf: 99.98%)
+  |SHAP| max:  0.000242
+  |SHAP| mean: 0.000013
+  |SHAP| std:  0.000022
+    Top-1 pixel: ( 59, 86) = 0.000242
+    Top-2 pixel: ( 59, 85) = 0.000242
+    Top-3 pixel: ( 59, 87) = 0.000242
+
+[Img 09] ✓ sea → sea (conf: 97.82%)
+  |SHAP| max:  0.000107
+  |SHAP| mean: 0.000022
+  |SHAP| std:  0.000022
+    Top-1 pixel: ( 58,113) = 0.000107
+    Top-2 pixel: ( 57,113) = 0.000107
+    Top-3 pixel: ( 57,114) = 0.000107
+
+[Img 10] ✓ street → street (conf: 99.87%)
+  |SHAP| max:  0.000072
+  |SHAP| mean: 0.000017
+  |SHAP| std:  0.000015
+    Top-1 pixel: ( 83, 16) = 0.000072
+    Top-2 pixel: ( 84, 18) = 0.000072
+    Top-3 pixel: ( 84, 17) = 0.000072
+
+[Img 11] ✓ street → street (conf: 52.36%)
+  |SHAP| max:  0.000041
+  |SHAP| mean: 0.000016
+  |SHAP| std:  0.000007
+    Top-1 pixel: ( 35, 58) = 0.000041
+    Top-2 pixel: ( 35, 59) = 0.000041
+    Top-3 pixel: ( 24, 64) = 0.000041
+
+================================================================================
+STATISTICHE SHAP PER CLASSE
+================================================================================
 
 buildings:
-  Media |SHAP|: 0.002300
-  Max   |SHAP|: 0.010303
-  Std   |SHAP|: 0.001081
+  Media |SHAP|: 0.000022
+  Max   |SHAP|: 0.000093
+  Std   |SHAP|: 0.000012
 
 forest:
-  Media |SHAP|: 0.002140
-  Max   |SHAP|: 0.005500
-  Std   |SHAP|: 0.000697
+  Media |SHAP|: 0.000007
+  Max   |SHAP|: 0.000018
+  Std   |SHAP|: 0.000002
 
 glacier:
-  Media |SHAP|: 0.002477
-  Max   |SHAP|: 0.006758
-  Std   |SHAP|: 0.000865
+  Media |SHAP|: 0.000011
+  Max   |SHAP|: 0.000066
+  Std   |SHAP|: 0.000007
 
 mountain:
-  Media |SHAP|: 0.002588
-  Max   |SHAP|: 0.006435
-  Std   |SHAP|: 0.000907
+  Media |SHAP|: 0.000008
+  Max   |SHAP|: 0.000023
+  Std   |SHAP|: 0.000004
 
 sea:
-  Media |SHAP|: 0.003650
-  Max   |SHAP|: 0.007936
-  Std   |SHAP|: 0.001280
+  Media |SHAP|: 0.000009
+  Max   |SHAP|: 0.000023
+  Std   |SHAP|: 0.000005
 
 street:
-  Media |SHAP|: 0.002939
-  Max   |SHAP|: 0.005510
-  Std   |SHAP|: 0.000976
+  Media |SHAP|: 0.000019
+  Max   |SHAP|: 0.000054
+  Std   |SHAP|: 0.000008
 
 ================================================================================
   FINE LOG
