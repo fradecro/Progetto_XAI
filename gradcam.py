@@ -59,7 +59,7 @@ transform = transforms.Compose([
 
 dataset = datasets.ImageFolder(root=data_dir, transform=transform)
 
-# Seleziona 500 indici random
+
 num_samples = 100
 indices = random.sample(range(len(dataset)), num_samples)
 
@@ -77,7 +77,7 @@ for idx in indices:
 
 
 img_tensors_batch = torch.stack(img_tensors)
-class_names = dataset.classes  # lista nomi classi, es. ['buildings', 'forest', ...]
+class_names = dataset.classes  
 
 
 
@@ -125,7 +125,7 @@ with open(log_path, "w") as f:
             rgb_img = np.array(img_pil) / 255.0
             visualization = show_cam_on_image(rgb_img, grayscale_cam, use_rgb=True)
 
-            # Salva l'immagine con la heatmap (in BGR per cv2)
+            # Salva l'immagine con la heatmap 
             out_path = os.path.join(output_dir, f"image_{i:03d}.png")
             cv2.imwrite(out_path, cv2.cvtColor(visualization, cv2.COLOR_RGB2BGR))
 
