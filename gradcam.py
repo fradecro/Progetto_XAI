@@ -1,40 +1,68 @@
 import os
-import warnings
-warnings.filterwarnings('ignore')
-from torchvision import transforms
-
-from pytorch_grad_cam import run_dff_on_image, GradCAM
-from pytorch_grad_cam.utils.model_targets import ClassifierOutputTarget
-from pytorch_grad_cam.utils.image import show_cam_on_image
-from pytorch_grad_cam import GradCAM
-import torch.nn as nn
-import random
-import torch
-from torchvision import models
-from torchvision import datasets
-from PIL import Image
-import numpy as np
 import cv2
 import torch
+import numpy as np
+import torchvision.models as models
+import torch.nn as nn
+import warnings
+import random 
 from PIL import Image
-from typing import List, Callable, Optional
+from torchvision import datasets, transforms
+from torch.utils.data import DataLoader, Subset 
 
+warnings.filterwarnings('ignore')
 
-
-
- 
-num_classes = 6
-method=GradCAM
-DEVICE = torch.device("cpu")
-NUM_CLASS = 6
-CLASS_NAMES = ["buildings", "forest", "glacier", "mountain", "sea", "street"]
+from pytorch_grad_cam import GradCAM
+from pytorch_grad_cam.utils.image import show_cam_on_image
+from pytorch_grad_cam.utils.model_targets import ClassifierOutputTarget
+from pytorch_grad_cam.metrics.road import ROADCombined
 
 IMAGENET_MEAN = [0.485, 0.456, 0.406]
 IMAGENET_STD  = [0.229, 0.224, 0.225]
+num_classes = 6
 
-model = models.resnet18(weights=None) 
-def build_model(num_classes: int) -> nn.Module:
-    model = models.resnet18(weights=models.ResNet18_Weights.IMAGENET1K_V1)
+#Definisco le classi
+class_names = ['buildings', 'forest', 'glacier', 'mountain', 'sea', 'street']
+
+def category_name_to_index(category_name):
+    """Restituisce l'indice della classe in base al nome."""
+    return class_names.index(category_name)
+
+def draw_text_with_shadow(img, text, position, font_scale=0.35, thickness=1):
+    """Disegna un testo bianco con bordo nero per renderlo leggibile su qualsiasi sfondo."""
+    font = cv2.FONT_HERSHEY_SIMPLEX
+    
+    cv2.putText(img, text, position, font, font_scale, (0, 0, 0), thickness + 1, cv2.LINE_AA)
+    
+    cv2.putText(img, text, position, font, font_scale, (255, 255, 255), thickness, cv2.LINE_AA)
+
+if __name__ == "__main__":
+
+    # Trasformazioni 
+    transform = transforms.Compose([
+        transforms.Resize((150, 150)),
+        transforms.ToTensor(),
+        transforms.Normalize(IMAGENET_MEAN, IMAGENET_STD),
+    ])
+
+    # Carico il Dataset completo ed estraggo 500 immaggini
+    dataset_path = "seg_test/seg_test" 
+    full_dataset = datasets.ImageFolder(root=dataset_path, transform=transform)
+    
+
+    num_samples = min(500, len(full_dataset))
+    
+    
+    random_indices = random.sample(range(len(full_dataset)), num_samples)
+    
+    
+    subset_dataset = Subset(full_dataset, random_indices)
+    
+    # Inizializzo il subset di 500 img
+    dataloader = DataLoader(subset_dataset, batch_size=1, shuffle=False)
+
+    # Carico il Modello
+    model = models.resnet18(pretrained=False)
     model.fc = nn.Sequential(
         nn.Dropout(p=0.4),
         nn.Linear(512, 256),
@@ -42,100 +70,68 @@ def build_model(num_classes: int) -> nn.Module:
         nn.Dropout(p=0.3),
         nn.Linear(256, num_classes),
     )
-    return model
+    model.load_state_dict(torch.load('best_model.pth')) 
+    model.eval()
 
-model = build_model(NUM_CLASS).to(DEVICE)
-model.load_state_dict(torch.load("best_model.pth", map_location=DEVICE))
-model.eval()
+   
+    target_layer = model.layer4[-1] 
 
+   
+    output_dir = "gradcam_results"
+    os.makedirs(output_dir, exist_ok=True)
 
+    # Inizializzo la metrica ROAD
+    percentiles = [10, 50, 90]
+    cam_metric = ROADCombined(percentiles=percentiles)
 
+    print("Inizio elaborazione...")
 
-data_dir = "seg_test/seg_test"
-transform = transforms.Compose([
-    transforms.Resize((150, 150)),
-    transforms.ToTensor(),
-])
-
-dataset = datasets.ImageFolder(root=data_dir, transform=transform)
-
-
-num_samples = 100
-indices = random.sample(range(len(dataset)), num_samples)
-
-img_tensors = []
-images = []       # versioni PIL/numpy per la visualizzazione
-labels = []
-
-for idx in indices:
-    img_tensor, label = dataset[idx]
-    img_tensors.append(img_tensor)
-    labels.append(label)
-    # ricarica l'immagine originale (senza ToTensor) per la visualizzazione
-    path, _ = dataset.samples[idx]
-    images.append(Image.open(path).convert("RGB").resize((150, 150)))
-
-
-img_tensors_batch = torch.stack(img_tensors)
-class_names = dataset.classes  
-
-
-
-
-
-
-
-
-
-
-
-class_names = ['buildings', 'forest', 'glacier', 'mountain', 'sea', 'street']
-
-target_layer = model.layer4[-1]
-
-results = []
-
-
-
-
-
-output_dir = "gradcam_results"
-os.makedirs(output_dir, exist_ok=True)
-
-log_path = os.path.join(output_dir, "predictions.txt")
-
-target_layer = model.layer4[-1]
-
-with open(log_path, "w") as f:
+    # Inizzializzo GradCAM (eventualmente da modificare per GradCAM++)
     with GradCAM(model=model, target_layers=[target_layer]) as cam:
+        
+        for idx, (img_tensor, label_idx) in enumerate(dataloader):
+            
 
-        for i, (img_tensor, label, img_pil) in enumerate(zip(img_tensors, labels, images)):
-
-            target = [ClassifierOutputTarget(label)]
-
-            # Predizione del modello
-            with torch.no_grad():
-                output = model(img_tensor.unsqueeze(0))
-            pred_idx = output.argmax(dim=1).item()
-
-            # Grad-CAM
-            grayscale_cam = cam(input_tensor=img_tensor.unsqueeze(0), targets=target)
-            grayscale_cam = grayscale_cam[0, :]
-
-            rgb_img = np.array(img_pil) / 255.0
-            visualization = show_cam_on_image(rgb_img, grayscale_cam, use_rgb=True)
-
-            # Salva l'immagine con la heatmap 
-            out_path = os.path.join(output_dir, f"image_{i:03d}.png")
-            cv2.imwrite(out_path, cv2.cvtColor(visualization, cv2.COLOR_RGB2BGR))
-
-            # Scrivi il risultato nel file di testo
-            true_class = class_names[label]
-            pred_class = class_names[pred_idx]
-            f.write(f"image_{i:03d}.png -> true: {true_class}, predicted: {pred_class}\n")
-
-print(f"Fatto! Risultati salvati in '{output_dir}/'")
-
+            original_idx = subset_dataset.indices[idx]
+            img_path, _ = full_dataset.samples[original_idx]
+            
+            raw_image = Image.open(img_path).convert('RGB')
+            
+            # Estrapolo Altezza (H) e Larghezza (W) reali dal tensore (img_tensor ha forma [1, 3, H, W])
+            H, W = img_tensor.shape[2], img_tensor.shape[3]
+            
+            # Ridimensiono l'immagine originale a W, H per lo sfondo
+            rgb_img = cv2.resize(np.array(raw_image, dtype=np.float32) / 255.0, (W, H))
+            
+            true_class_name = class_names[label_idx.item()]
+            
+            
+            targets = [ClassifierOutputTarget(label_idx.item())]
+            
+            # Generazione heatmap
+            grayscale_cams = cam(input_tensor=img_tensor, targets=targets)
+            grayscale_cam = grayscale_cams[0, :] 
+            
+            # Calcolo metrica
+            scores = cam_metric(img_tensor, grayscale_cams, targets, model)
+            score = scores[0] # Estraiamo il valore per la singola immagine
+            
+           
+            cam_image = show_cam_on_image(rgb_img, grayscale_cam, use_rgb=True)
+            
+            # Scrivo la metrica sull'immagine
+            line1 = "GradCAM"
+            line2 = f"Percentiles: {percentiles}"
+            line3 = "Remove and Debias"
+            line4 = f"{score:.5f}"
+            
+            draw_text_with_shadow(cam_image, line1, (5, 15))
+            draw_text_with_shadow(cam_image, line2, (5, 30))
+            draw_text_with_shadow(cam_image, line3, (5, 45))
+            draw_text_with_shadow(cam_image, line4, (5, 60))
+            
+            # salvo tutto con img_numimg_predict
+            save_path = os.path.join(output_dir, f"img_{original_idx}_{true_class_name}.jpg")
+            cv2.imwrite(save_path, cv2.cvtColor(cam_image, cv2.COLOR_RGB2BGR))
 
     
-
