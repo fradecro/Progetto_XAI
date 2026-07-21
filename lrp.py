@@ -11,6 +11,7 @@ import numpy as np
 from zennit.composites import EpsilonPlusFlat
 from zennit.attribution import Gradient
 from captum.attr import visualization as viz
+from zennit.torchvision import ResNetCanonizer
 
 #SETUP MODELLO
 DEVICE = torch.device("cpu") 
@@ -75,10 +76,12 @@ for images, labels in test_loader:
     
     target_labels = F.one_hot(preds, num_classes=NUM_CLASS).float().to(DEVICE)
 
-    
-    composite = EpsilonPlusFlat()
+    canonizer = ResNetCanonizer()
 
     
+    composite = EpsilonPlusFlat(canonizers=[canonizer])
+
+
     with Gradient(model, composite) as attributor:
         _, attributions = attributor(images, target_labels)
         
