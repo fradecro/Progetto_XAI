@@ -1,6 +1,6 @@
 ================================================================================
   ANALISI INTEGRATED GRADIENTS — LOG COMPLETO
-  Data e ora: 2026-06-08 23:02:06
+  Data e ora: 2026-09-17 01:09:53
 ================================================================================
 
 Caricamento del modello
@@ -246,6 +246,21 @@ street (2 immagini):
     3. Posizione (143,  47): 0.049156
     4. Posizione (143,  43): 0.046784
     5. Posizione (138, 147): 0.044294
+
+================================================================================
+AVVIO FAITHFULL EVALUATION (ROAR) - MASCHERAMENTO XAI & RANDOM
+================================================================================
+Creazione dataset mascherati in: Integrated_Gradients/roar_datasets
+Soglie alpha: [10, 30, 50, 70, 90]%
+Colore di mascheramento (grigio fisso): 0.5 (in scala 0-1)
+
+ -> Elaborazione soglia Alpha = 10%
+ -> Elaborazione soglia Alpha = 30%
+ -> Elaborazione soglia Alpha = 50%
+ -> Elaborazione soglia Alpha = 70%
+ -> Elaborazione soglia Alpha = 90%
+Generazione dataset mascherati completata.
+
 
 ================================================================================
   FINE LOG

@@ -1,6 +1,6 @@
 ================================================================================
   ANALISI SHAP — LOG COMPLETO
-  Data e ora: 2026-06-10 22:25:07
+  Data e ora: 2026-09-17 00:59:46
 ================================================================================
 
 Caricamento del modello
@@ -49,9 +49,9 @@ STATISTICHE SHAP PER IMMAGINE
   |SHAP| max:  0.000156
   |SHAP| mean: 0.000010
   |SHAP| std:  0.000019
-    Top-1 pixel: (  8, 89) = 0.000156
-    Top-2 pixel: (  8, 88) = 0.000156
-    Top-3 pixel: (  9, 78) = 0.000156
+    Top-1 pixel: (  5, 75) = 0.000156
+    Top-2 pixel: (  2, 81) = 0.000156
+    Top-3 pixel: (  2, 82) = 0.000156
 
 [Img 03] ✓ forest → forest (conf: 100.00%)
   |SHAP| max:  0.000040
@@ -81,17 +81,17 @@ STATISTICHE SHAP PER IMMAGINE
   |SHAP| max:  0.000020
   |SHAP| mean: 0.000004
   |SHAP| std:  0.000002
-    Top-1 pixel: (  5,148) = 0.000020
-    Top-2 pixel: (  5,149) = 0.000020
-    Top-3 pixel: (  6,141) = 0.000020
+    Top-1 pixel: (  5,149) = 0.000020
+    Top-2 pixel: (  5,148) = 0.000020
+    Top-3 pixel: (  5,147) = 0.000020
 
 [Img 07] ✓ mountain → mountain (conf: 99.98%)
   |SHAP| max:  0.000167
   |SHAP| mean: 0.000004
   |SHAP| std:  0.000017
-    Top-1 pixel: ( 19,117) = 0.000167
-    Top-2 pixel: ( 19,116) = 0.000167
-    Top-3 pixel: ( 20,116) = 0.000167
+    Top-1 pixel: ( 26,116) = 0.000167
+    Top-2 pixel: ( 21,117) = 0.000167
+    Top-3 pixel: ( 26,117) = 0.000167
 
 [Img 08] ✓ sea → sea (conf: 99.98%)
   |SHAP| max:  0.000242
@@ -158,6 +158,21 @@ street:
   Media |SHAP|: 0.000019
   Max   |SHAP|: 0.000054
   Std   |SHAP|: 0.000008
+
+================================================================================
+AVVIO FAITHFULL EVALUATION (ROAR) - MASCHERAMENTO XAI & RANDOM
+================================================================================
+Creazione dataset mascherati in: shap_risultati/roar_datasets
+Soglie alpha: [10, 30, 50, 70, 90]%
+Colore di mascheramento (grigio fisso): 0.5 (in scala 0-1)
+
+ -> Elaborazione soglia Alpha = 10%
+ -> Elaborazione soglia Alpha = 30%
+ -> Elaborazione soglia Alpha = 50%
+ -> Elaborazione soglia Alpha = 70%
+ -> Elaborazione soglia Alpha = 90%
+Generazione dataset mascherati completata.
+
 
 ================================================================================
   FINE LOG
